@@ -9,22 +9,24 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    name: Build RELINK Kick Enhancer
+    runs-on: windows-2022
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Configure CMake
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 
       - name: Build VST3
-        run: cmake --build build --config Release --target RELINKKickEnhancer_VST3 --parallel 4
+        run: |
+          cmake --build build --config Release --target RELINKKickEnhancer_VST3 --parallel 4
 
       - name: Upload VST3
         uses: actions/upload-artifact@v4
         with:
-          name: RELINK-Kick-Enhancer-VST3
+          name: RELINK-Kick-Enhancer-v1.1-Windows
           path: build/RELINKKickEnhancer_artefacts/Release/VST3/*.vst3
           if-no-files-found: error
-
